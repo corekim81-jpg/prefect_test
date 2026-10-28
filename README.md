@@ -12,7 +12,7 @@ Prefect 3의 공개 사용자 기능을 작은 실행 예제로 익히기 위한
 ```powershell
 # 터미널 1
 uv sync --extra dev
-uv run prefect server start
+.\scripts\start_local_server.ps1
 
 # 터미널 2
 $env:PREFECT_API_URL = "http://127.0.0.1:4200/api"
@@ -25,9 +25,16 @@ UI: <http://127.0.0.1:4200>
 ### `Failed to reach API` / `WinError 10061`
 
 이 오류는 `PREFECT_API_URL`은 설정되어 있지만 해당 주소에서 Prefect 서버가
-실행되지 않을 때 발생합니다. 첫 번째 터미널에서 `uv run prefect server start`를
+실행되지 않을 때 발생합니다. 첫 번째 터미널에서 `.\scripts\start_local_server.ps1`을
 실행하고 `http://127.0.0.1:4200`이 열리는지 확인한 뒤 예제를 다시 실행하세요.
 Docker를 사용한다면 `docker compose up prefect-server`로 서버만 시작할 수도 있습니다.
+
+### 서버 시작 중 PostgreSQL `ConnectionRefusedError`
+
+Prefect 프로필에 `PREFECT_API_DATABASE_CONNECTION_URL`이 PostgreSQL로 설정되어 있지만
+PostgreSQL이 실행되지 않을 때 발생합니다. 위의 `start_local_server.ps1`은 사용자
+프로필을 수정하지 않고 이 저장소의 `prefect.db` SQLite 파일을 사용하므로 학습용
+실행에 적합합니다. PostgreSQL 구성을 시험하려면 해당 서버를 먼저 시작하세요.
 
 ## 기능 지도
 
