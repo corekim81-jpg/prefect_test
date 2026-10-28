@@ -1,0 +1,26 @@
+name: prefect-feature-examples
+prefect-version: 3.9.0
+
+build: null
+push: null
+
+pull:
+  - prefect.deployments.steps.set_working_directory:
+      directory: "{{ $PWD }}"
+
+deployments:
+  - name: yaml-cron
+    version: 0.1.0
+    tags: [demo, yaml]
+    description: 평일 오전 9시(Asia/Seoul)에 실행하는 YAML 배포 예제
+    entrypoint: src/prefect_examples/deployments/flows.py:scheduled_report
+    parameters:
+      report_date: scheduled
+    work_pool:
+      name: local-process
+      work_queue_name: default
+      job_variables: {}
+    schedules:
+      - cron: "0 9 * * 1-5"
+        timezone: Asia/Seoul
+        active: true
