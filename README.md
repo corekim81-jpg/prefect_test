@@ -6,24 +6,28 @@ Prefect 3의 공개 사용자 기능을 작은 실행 예제로 익히기 위한
 
 ## 1분 시작
 
-```powershell
-uv sync --extra dev
-uv run python -m prefect_examples.basics
-uv run pytest
-```
-
-UI와 영구 실행 기록을 사용하려면 터미널 두 개를 엽니다.
+의존성을 설치한 다음 터미널 두 개를 엽니다. 로컬 프로필의 API 주소가
+`http://127.0.0.1:4200/api`라면 서버를 먼저 실행해야 합니다.
 
 ```powershell
 # 터미널 1
+uv sync --extra dev
 uv run prefect server start
 
 # 터미널 2
 $env:PREFECT_API_URL = "http://127.0.0.1:4200/api"
-uv run python -m prefect_examples.observability
+uv run python -m prefect_examples.basics
+uv run pytest
 ```
 
 UI: <http://127.0.0.1:4200>
+
+### `Failed to reach API` / `WinError 10061`
+
+이 오류는 `PREFECT_API_URL`은 설정되어 있지만 해당 주소에서 Prefect 서버가
+실행되지 않을 때 발생합니다. 첫 번째 터미널에서 `uv run prefect server start`를
+실행하고 `http://127.0.0.1:4200`이 열리는지 확인한 뒤 예제를 다시 실행하세요.
+Docker를 사용한다면 `docker compose up prefect-server`로 서버만 시작할 수도 있습니다.
 
 ## 기능 지도
 
